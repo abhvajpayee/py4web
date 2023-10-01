@@ -303,7 +303,9 @@ class FormStyleFactory:
 
         kwargs["_accept-charset"] = "utf8"
         form_method = "POST"
-        form_action = request.url.split(":", 1)[1]
+        #form_action = request.url.split(":", 1)[1]
+        scheme, _, domain, action = request.url.split("/", 3)
+        form_action = (request.environ.get("HTTP_ORIGIN") or '//' + domain) + '/' + action
         form_enctype = "multipart/form-data"
 
         if "_method" in kwargs:
